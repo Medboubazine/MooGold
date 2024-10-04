@@ -3,8 +3,10 @@
 namespace Medboubazine\Moogold;
 
 use Medboubazine\Moogold\Auth\Credentials;
-use Medboubazine\Moogold\Elements\BalanceElement;
 use Medboubazine\Moogold\HttpRequests\BalanceRequest;
+use Medboubazine\Moogold\HttpRequests\ProductDetailsRequest;
+use Medboubazine\Moogold\HttpRequests\ProductsListRequest;
+use Medboubazine\Moogold\HttpRequests\ProductsRequest;
 
 class Moogold
 {
@@ -17,13 +19,30 @@ class Moogold
     ) {}
 
     /**
-     * Get balance
+     * Balance
      *
-     * @return BalanceElement|null
+     * @return BalanceRequest
      */
-    public function balance(): ?BalanceElement
+    public function balance(): BalanceRequest
     {
-
-        return (new BalanceRequest($this->credentials))->handle();
+        return new BalanceRequest($this->credentials);
+    }
+    /**
+     * Products
+     *
+     * @return ProductsRequest
+     */
+    public function products_list(): ProductsListRequest
+    {
+        return new ProductsListRequest($this->credentials);
+    }
+    /**
+     * Details
+     *
+     * @return ProductDetailsRequest
+     */
+    public function product_details(): ProductDetailsRequest
+    {
+        return new ProductDetailsRequest($this->credentials);
     }
 }

@@ -4,47 +4,35 @@ namespace Medboubazine\Moogold\HttpRequests;
 
 use Medboubazine\Moogold\Abstracts\HttpRequestAbstract;
 use Medboubazine\Moogold\Elements\BalanceElement;
+use Medboubazine\Moogold\Exceptions\InvalidServerResponse;
 use Medboubazine\Moogold\Interfaces\ElementsInterface;
 use Medboubazine\Moogold\Interfaces\HttpRequestInterface;
 
 class BalanceRequest extends HttpRequestAbstract implements HttpRequestInterface
 {
     /**
+     * Path
+     *
+     * @var string
+     */
+    public string $path = "user/balance";
+    /**
      * Handle request
      *
      * @return ElementsInterface|null
      */
-    public function handle(array $args = []): ?ElementsInterface
+    public function get(): ?ElementsInterface
     {
-        //
-        // Request URI
-        //
-        $path = "user/balance";
-        //
-        // Request timestamp
-        //
-        $timestamp = time();
-        ///
-        /// BODY
-        ///
         $body = json_encode([
-            "path" => $path
+            "path" => $this->path
         ]);
 
-        $response = $this->__guzzle_request(
-            "POST",
-            $path,
-            $this->buildHeaders(
-                $timestamp,
-                $this->calculateSignature($body, $timestamp, $path),
-                $this->calculateAuthorizationCredentials(),
-            ),
-            [
-                "body" => $body
-            ]
-        );
+        $response = $this->__guzzle_request("POST", $this->path, $this->buildHeaders($body), [
+            "body" => $body
+        ]);
+
         if ($response->getStatusCode() === 200) {
-            $contents = $response->getBody()->getContents();
+            $contents = $response->getBody();
             $contents_array = json_decode($contents, true);
 
             if ($contents_array and is_array($contents_array)) {
@@ -53,6 +41,9 @@ class BalanceRequest extends HttpRequestAbstract implements HttpRequestInterface
                 }
             }
         }
+
+        InvalidServerResponse::message($response);
+
         return null;
     }
 }

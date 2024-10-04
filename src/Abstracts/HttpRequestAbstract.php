@@ -9,11 +9,35 @@ use Psr\Http\Message\ResponseInterface;
 abstract class HttpRequestAbstract
 {
     /**
+     * Request path
+     *
+     * @var string
+     */
+    public string $path;
+
+    /**
+     * Time
+     *
+     * @var integer
+     */
+    public int $timestamp;
+
+    /**
+     * Credentials
+     *
+     * @var Credentials
+     */
+    protected Credentials $credentials;
+    /**
      * Constructor
      *
      * @param [type] $credentials
      */
-    public function __construct(public Credentials $credentials) {}
+    public function __construct(Credentials $credentials)
+    {
+        $this->credentials = $credentials;
+        $this->timestamp = time();
+    }
     /**
      * __request
      *
@@ -21,6 +45,7 @@ abstract class HttpRequestAbstract
      */
     public function __guzzle_request($method, $uri, $headers, $options = []): ResponseInterface
     {
+
         $client = new Client([
             "base_uri" => "https://moogold.com/wp-json/v1/api/",
             'timeout'  => 10,
@@ -43,30 +68,21 @@ abstract class HttpRequestAbstract
      * @param string $auth_basic
      * @return array
      */
-    public function buildHeaders(string $timestamp, string $signature, string $auth_basic): array
+    public function buildHeaders(string $body): array
     {
         return [
-            'timestamp' => $timestamp,
-            'auth' => $signature,
-            'Authorization' => "Basic {$auth_basic}",
+            'timestamp' => $this->timestamp,
+            'auth' => $this->calculateSignature($body),
+            'Authorization' => "Basic " . base64_encode("{$this->credentials->partner_id}:{$this->credentials->secret_key}"),
         ];
-    }
-    /**
-     * Undocumented function
-     *
-     * @return string
-     */
-    public function calculateAuthorizationCredentials(): string
-    {
-        return base64_encode("{$this->credentials->partner_id}:{$this->credentials->secret_key}");
     }
     /**
      * Calc signature
      *
      * @return string
      */
-    public function calculateSignature(string $body, int $timestamp, string $path): string
+    protected function calculateSignature(string $body): string
     {
-        return hash_hmac('SHA256', "{$body}{$timestamp}{$path}", $this->credentials->secret_key);
+        return hash_hmac('SHA256', "{$body}{$this->timestamp}{$this->path}", $this->credentials->secret_key);
     }
 }
