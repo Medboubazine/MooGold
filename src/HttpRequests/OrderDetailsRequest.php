@@ -40,7 +40,7 @@ class OrderDetailsRequest extends HttpRequestAbstract implements HttpRequestInte
             if ($contents_array and is_array($contents_array)) {
 
                 if (isset($contents_array['order_id'])) {
-                    //// Order items
+                    //// Calc items
                     $offer_id = null;
                     $quantity = 0;
                     $total = 0;
@@ -54,6 +54,10 @@ class OrderDetailsRequest extends HttpRequestAbstract implements HttpRequestInte
 
                         $items = array_merge($items, $delivered_keys);
                     }
+                    //DateTime
+                    $datetime = $contents_array['date_created'];
+                    $date = $datetime['date'];
+                    $timezone = $datetime['timezone'];
                     ////
                     return new OrderElement(
                         $contents_array['order_id'],
@@ -62,7 +66,7 @@ class OrderDetailsRequest extends HttpRequestAbstract implements HttpRequestInte
                         $quantity,
                         $total,
                         $items,
-                        Carbon::parse($contents_array['date_created']),
+                        Carbon::parse($date, $timezone),
                     );
                 }
             }
