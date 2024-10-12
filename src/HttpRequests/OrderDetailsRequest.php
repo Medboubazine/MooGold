@@ -50,8 +50,9 @@ class OrderDetailsRequest extends HttpRequestAbstract implements HttpRequestInte
                         $offer_id = $item['variation_id'];
                         $quantity += $item['quantity'];
                         $total += $item['price'];
-                        $total += $item['price'];
-                        $items = array_merge($items, $item['voucher_code']);
+                        $delivered_keys = (is_array($item['voucher_code'])) ? $item['voucher_code'] : [];
+
+                        $items = array_merge($items, $delivered_keys);
                     }
                     ////
                     return new OrderElement(
