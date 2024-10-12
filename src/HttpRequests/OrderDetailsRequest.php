@@ -60,7 +60,7 @@ class OrderDetailsRequest extends HttpRequestAbstract implements HttpRequestInte
                         $offer_id,
                         $contents_array['order_status'],
                         $quantity,
-                        $contents_array['total'],
+                        $total,
                         $items,
                         Carbon::parse($contents_array['date_created']),
                     );
