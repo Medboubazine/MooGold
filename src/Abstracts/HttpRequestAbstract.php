@@ -63,9 +63,7 @@ abstract class HttpRequestAbstract
     /**
      * Build Headers
      *
-     * @param string $timestamp
-     * @param string $signature
-     * @param string $auth_basic
+     * @param string $body
      * @return array
      */
     public function buildHeaders(string $body): array
@@ -79,6 +77,7 @@ abstract class HttpRequestAbstract
     /**
      * Calc signature
      *
+     * @param string $body
      * @return string
      */
     protected function calculateSignature(string $body): string

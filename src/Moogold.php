@@ -2,11 +2,10 @@
 
 namespace Medboubazine\Moogold;
 
+use Medboubazine\Moogold\Api\Orders;
+use Medboubazine\Moogold\Api\Products;
+use Medboubazine\Moogold\Api\User;
 use Medboubazine\Moogold\Auth\Credentials;
-use Medboubazine\Moogold\HttpRequests\BalanceRequest;
-use Medboubazine\Moogold\HttpRequests\ProductDetailsRequest;
-use Medboubazine\Moogold\HttpRequests\ProductsListRequest;
-use Medboubazine\Moogold\HttpRequests\ProductsRequest;
 
 class Moogold
 {
@@ -19,30 +18,30 @@ class Moogold
     ) {}
 
     /**
-     * Balance
+     * User API Requests
      *
-     * @return BalanceRequest
+     * @return User
      */
-    public function balance(): BalanceRequest
+    public function user(): User
     {
-        return new BalanceRequest($this->credentials);
+        return new User($this->credentials);
     }
     /**
-     * Products
+     * Products API Requests
      *
-     * @return ProductsRequest
+     * @return Products
      */
-    public function products_list(): ProductsListRequest
+    public function products(): Products
     {
-        return new ProductsListRequest($this->credentials);
+        return new Products($this->credentials);
     }
     /**
-     * Details
+     * Orders API Requests
      *
-     * @return ProductDetailsRequest
+     * @return Orders
      */
-    public function product_details(): ProductDetailsRequest
+    public function orders(): Orders
     {
-        return new ProductDetailsRequest($this->credentials);
+        return new Orders($this->credentials);
     }
 }

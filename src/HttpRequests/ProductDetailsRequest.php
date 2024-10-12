@@ -23,7 +23,7 @@ class ProductDetailsRequest extends HttpRequestAbstract implements HttpRequestIn
      *
      * @return ElementsInterface|null
      */
-    public function details(int $product_id): ?Collection
+    public function handle(int $product_id): ?Collection
     {
         $body = json_encode([
             "path" => $this->path,

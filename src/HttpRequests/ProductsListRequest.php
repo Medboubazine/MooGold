@@ -6,7 +6,6 @@ use Medboubazine\Moogold\Exceptions\InvalidServerResponse;
 use Medboubazine\Moogold\Interfaces\HttpRequestInterface;
 use Medboubazine\Moogold\Abstracts\HttpRequestAbstract;
 use Medboubazine\Moogold\Elements\CategoryElement;
-use Medboubazine\Moogold\Elements\ProductListItemElement;
 use Medboubazine\Moogold\Interfaces\ElementsInterface;
 use Medboubazine\Moogold\Helpers\Collection;
 
@@ -23,7 +22,7 @@ class ProductsListRequest extends HttpRequestAbstract implements HttpRequestInte
      *
      * @return ElementsInterface|null
      */
-    public function list(int $category_id): ?Collection
+    public function handle(int $category_id): ?Collection
     {
         $body = json_encode([
             "path" => $this->path,

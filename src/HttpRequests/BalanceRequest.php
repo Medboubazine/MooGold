@@ -5,7 +5,6 @@ namespace Medboubazine\Moogold\HttpRequests;
 use Medboubazine\Moogold\Abstracts\HttpRequestAbstract;
 use Medboubazine\Moogold\Elements\BalanceElement;
 use Medboubazine\Moogold\Exceptions\InvalidServerResponse;
-use Medboubazine\Moogold\Interfaces\ElementsInterface;
 use Medboubazine\Moogold\Interfaces\HttpRequestInterface;
 
 class BalanceRequest extends HttpRequestAbstract implements HttpRequestInterface
@@ -19,9 +18,9 @@ class BalanceRequest extends HttpRequestAbstract implements HttpRequestInterface
     /**
      * Handle request
      *
-     * @return ElementsInterface|null
+     * @return BalanceElement|null
      */
-    public function get(): ?ElementsInterface
+    public function handle(): ?BalanceElement
     {
         $body = json_encode([
             "path" => $this->path
