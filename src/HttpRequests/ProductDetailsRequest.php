@@ -23,7 +23,7 @@ class ProductDetailsRequest extends HttpRequestAbstract implements HttpRequestIn
      *
      * @return ElementsInterface|null
      */
-    public function handle(int $product_id): ?Collection
+    public function handle(int $product_id): ?ProductElement
     {
         $body = json_encode([
             "path" => $this->path,
@@ -41,7 +41,6 @@ class ProductDetailsRequest extends HttpRequestAbstract implements HttpRequestIn
             if ($contents_array and is_array($contents_array)) {
 
                 if (isset($contents_array['Product_Name'])) {
-                    $collection = new Collection([]);
                     //Offers
                     $offers = new Collection();
 
@@ -49,14 +48,12 @@ class ProductDetailsRequest extends HttpRequestAbstract implements HttpRequestIn
                         $offers->push(new ProductOfferElement($offer['variation_id'], $offer['variation_name'], $offer['variation_price']));
                     }
                     //END OFFERS
-                    $collection->push(new ProductElement(
+                    return new ProductElement(
                         $product_id,
                         $contents_array['Product_Name'],
                         $contents_array['Image_URL'],
                         $offers,
-                    ));
-
-                    return $collection;
+                    );
                 }
             }
         }

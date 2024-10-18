@@ -3,6 +3,7 @@
 namespace Medboubazine\Moogold\Api;
 
 use Medboubazine\Moogold\Abstracts\ApiAbstract;
+use Medboubazine\Moogold\Elements\ProductElement;
 use Medboubazine\Moogold\Helpers\Collection;
 use Medboubazine\Moogold\HttpRequests\ProductDetailsRequest;
 use Medboubazine\Moogold\HttpRequests\ProductsListRequest;
@@ -28,7 +29,8 @@ class Products extends ApiAbstract
      * @param integer $product_id
      * @return Collection|null
      */
-    public function details(int $product_id): ?Collection
+    public function details(int $product_id): ?ProductElement
+
     {
         $request = new ProductDetailsRequest($this->credentials);
 
