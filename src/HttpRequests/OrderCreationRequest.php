@@ -51,12 +51,9 @@ class OrderCreationRequest extends HttpRequestAbstract implements HttpRequestInt
 
             if ($contents_array and is_array($contents_array)) {
 
-                if (isset($contents_array['status']) and isset($contents_array['account_details']) and $contents_array['status']) {
-
-                    $details = $contents_array['account_details'];
-
+                if (isset($contents_array['status']) and isset($contents_array['order_id'])) {
                     return new OrderElement(
-                        $details['order_id'],
+                        $contents_array['order_id'],
                     );
                 }
             }
